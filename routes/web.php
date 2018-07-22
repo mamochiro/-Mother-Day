@@ -39,11 +39,11 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 //for vote
 Route::post('/vote', 'PhotoController@vote');
-
+Route::post('/share', 'PhotoController@sha');
 //for merge image
 // Route::get('image-crop', 'ImageController@imageCrop');
 // Route::post('image-crop', 'ImageController@imageCropPost');
 
-
+Route::post('/crop', 'PhotoController@crop');
 //test
-Route::get('/testLog', 'PhotoController@testLog');
+Route::get('/upload', 'PhotoController@uploadImageAjax');

@@ -18,15 +18,20 @@ class PhotoController extends Controller
         $images = Photo::all();
 
         //get last vote form user
-        $checkLog = Log::where('user_id' , 1 )
+        $checkLog = Log::where('user_id' , Auth::id() )
                         ->orderBy('created_at' , 'desc')
                         ->first()->created_at;
 
         $time = Carbon::now();
+        $dtToronto = Carbon::now()->addDays(1);
+        $diffRemine = $time->diffInMinutes($checkLog);
         $diff = $time->diffInHours($checkLog);
-
+        $timeRemine = $dtToronto->subRealMinutes($diffRemine);
+        
         return view('allPhoto',['images' => $images,
                                 'diff'  =>  $diff,
+                                'time'  => $time ,
+                                'timeRemine' => $timeRemine,
                                     ]);
     }
     public function vote(Request $request)
@@ -58,7 +63,6 @@ class PhotoController extends Controller
 
     public function testLog()
     {
-          $user = User::find(Auth::id())->first();
-          echo $user->id ;
+          return view('share');
     }
 }

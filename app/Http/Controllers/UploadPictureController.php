@@ -130,21 +130,66 @@ class UploadPictureController extends Controller
           }
   }
 
-  public function deleteImage(Request $request)
-  {
+      public function deleteImage(Request $request)
+      {
 
-      $image_path = "image/".$request->image;  // Value is not URL but directory file path
-      if(File::exists($image_path)) {
-          File::delete($image_path);
+          $image_path = "image/".$request->image;  // Value is not URL but directory file path
+          if(File::exists($image_path)) {
+              File::delete($image_path);
+          }
+
+
+          // $image = Image::withTrashed()
+          //           ->where('fileName', $request->fileName)
+          //           ->get();
+          DB::table('photos')->where('image', $request->image)->delete();
+          return back();
       }
 
+      public function crop(Request $request)
+      {
+          //compare data for log
+          die($request);
+          // return response()->json(['status' => true]);
+      }
 
-      // $image = Image::withTrashed()
-      //           ->where('fileName', $request->fileName)
-      //           ->get();
-      DB::table('photos')->where('image', $request->image)->delete();
-      return back();
-  }
+      public function uploadImageAjax(Request $request)
+      {
 
+          dd($request);
+          // return response()->json(['status' => true]);
+          // $validator = Validator::make($request->all(), [
+          //             'image'   =>  'required | mimes:jpeg,jpg,png | max:1000',
+          //         ]);
+          //
+          // if (($request->hasFile('image'))) {
+          //   try {
+          //     if ($validator->fails())
+          //     {
+          //         return back()->with('warning', 'fail ');
+          //     }else{
+          //     $file =  $request->file('image');
+          //     $fileName = $file->getClientOriginalName();
+          //     $ext = $file->getClientOriginalExtension();
+          //     $file->move("image/", $fileName);
+          //
+          //
+          //     // save filename to DB
+          //     $photo = new Photo();
+          //     $photo->user_id = Auth::id();
+          //     $photo->image = $fileName;
+          //     $photo->fb_name = Auth::user()->fb_name;
+          //     $photo->fbid = Auth::user()->fbid;
+          //     // $photo->FileExtension = $ext ;
+          //     $photo->save();
+          //     return back()->with('success', 'upload image success');
+          //     }
+          //   } catch (\Exception $e) {
+          //     dd($e);
+          //     }
+          //   }else {
+          //     return back()->with('warning', 'no file ');
+          //   }
+    }
 
 }
